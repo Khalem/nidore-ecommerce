@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import HomePage from './pages/homepage/homepage.component';
 
-import './App.css';
+import './App.scss';
 
 function App() {
   return (
-    <div>
+    <Fragment>
       <HomePage />
-    </div>
+    </Fragment>
   );
 }
 
