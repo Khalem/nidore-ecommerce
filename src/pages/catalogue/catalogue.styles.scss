@@ -18,7 +18,7 @@
 
     .catalogue-title {
         font-family: var(--serif-font);
-        font-size: 96px;
+        font-size: 72px;
         font-weight: 400;
         margin: 0;
         padding: 100px 0 50px 0;
@@ -26,6 +26,24 @@
         color: var(--background-color);
         -webkit-text-stroke: 1px black;
         text-align: center;
+    }
+
+    .custom-button-container {
+        width: 98%;
+        padding: 50px 0 25px 0;
+        margin: 0 auto;
+    }
+
+    @media screen and (min-width: 768px) {
+        .catalogue-title {
+            font-size: 96px;
+        }
+
+        .custom-button-container {
+            margin: 0 auto;
+            padding: 50px 0 25px 0;
+            width: 260px;
+        }
     }
 
     @media screen and (min-width: 1280px) {

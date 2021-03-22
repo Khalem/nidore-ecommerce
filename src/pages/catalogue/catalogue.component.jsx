@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 
 import Directory from '../../components/directory/directory.component';
+import CustomButton from '../../components/custom-button/custom-button.component';
 
 import SHOP_DATA from '../../data/shopData';
 
@@ -12,17 +13,50 @@ class Catalogue extends React.Component {
         super(props);
         this.state = {
             pathName: props.history.location.pathname,
+            completeData: {},
             data: {},
-            loaded: false
+            page: 1,
+            loaded: false,
+            showMore: true
         }
     }
 
-    componentDidMount() {
-        SHOP_DATA.map(data => {
+    async componentDidMount() {
+        await SHOP_DATA.map(data => {
             if (data.routeName === this.state.pathName) {
-                this.setState({ data, loaded: true });
+                this.setState({ completeData: data });
             }
         });
+
+        await this.updateResults();
+    }
+
+    // This function will either increase or decrease this.state.page depending on this.state.showMore
+    handleClick = async () => {
+        const { showMore, page } = this.state;
+        const newPage = showMore ? page + 1 : page - 1;
+
+        await this.setState({ page: newPage });
+        await this.updateResults();
+    }
+
+    /*
+        Pagination will work as follows:
+        page state will indicate how many 'pages' user is on. there are actually no pages,
+        but this will act as the anchor for multiples of results shown (e.g page2 * 9 == 18 results shown)
+    */
+    updateResults = () => {
+        const { completeData, page } = this.state;
+        const newData = completeData.items.slice(0, page * 9);
+
+        // check if user has all results and update state so they can go backwards, and vice versa
+        if (newData.length === completeData.items.length) {
+            this.setState({ showMore: false });
+        } else if (newData.length === 9 && !this.state.showMore) {
+            this.setState({ showMore: true });
+        }
+
+        this.setState({ data: newData, loaded: true });
     }
 
     render() {
@@ -37,8 +71,14 @@ class Catalogue extends React.Component {
                         <div className='guide-four'></div>
                     </div>
                 </div>
-                <h1 className='catalogue-title'>{this.state.data.title}</h1>
+                <h1 className='catalogue-title'>{this.state.completeData.title}</h1>
                 <Directory data={this.state.data} />
+                <div className='custom-button-container'>
+                    <CustomButton handleClick={this.handleClick}>{
+                        this.state.showMore ? 'See More Results'
+                        : 'Show Less Results'
+                    }</CustomButton>
+                </div>
             </section>
             : <h2>Loading..</h2>
         );

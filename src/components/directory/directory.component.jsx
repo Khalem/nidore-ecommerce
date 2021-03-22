@@ -4,16 +4,18 @@ import DirectoryItem from '../directory-item/directory-item.component';
 
 import './directory.styles.scss';
 
-const Directory = ({ data }) => (
-    <div className='directory-container'>
-        <div className='directory'>
-            {
-                data.items.map((item, index) => (
-                    <DirectoryItem item={item} index={index} />
-                ))
-            }
+const Directory = ({ data }) => {
+    return (
+        <div className='directory-container'>
+            <div className='directory'>
+                {
+                    data.map((item, index) => (
+                        <DirectoryItem item={item} key={index} />
+                    ))
+                }
+            </div>
         </div>
-    </div>
-);
+    );
+}
 
 export default Directory;

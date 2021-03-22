@@ -1,0 +1,14 @@
+.custom-button {
+    font-family: var(--sans-font);
+    font-weight: 500;
+    font-size: 14px;
+    width: 100%;
+    padding: 15px 0;
+    background-color: var(--dark-color);
+    color: var(--background-color);
+    border: none;
+    outline: none;
+    cursor: pointer;
+    -webkit-box-shadow: 0px 3px 49px 5px rgba(0, 0, 0, .2); 
+    box-shadow: 0px 3px 49px 5px rgba(0, 0, 0, .2);
+}
