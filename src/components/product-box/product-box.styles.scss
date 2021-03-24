@@ -14,12 +14,6 @@
     }
 }
 
-@mixin flexCenter {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 .product-box {
     @include width;
 
@@ -57,14 +51,22 @@
             height: 100%;
             margin: 30px auto;
 
-            .prices div {
-                display: flex;
-                justify-content: space-between;
-                padding: 0 20px;
-                margin: 15px 0;
-                font-weight: 500;
-                background-color: #0f0f0f;
-                cursor: pointer;
+            .prices {
+                .price {
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 0 20px;
+                    margin: 15px 0;
+                    font-weight: 500;
+                    background-color: var(--dark-color);
+                    border: 1px solid #0f0f0f;
+                    cursor: pointer;
+                }
+
+                .active {
+                    background-color: #0f0f0f;
+                    border: 1px solid var(--background-color);
+                }
             }
         }
     }

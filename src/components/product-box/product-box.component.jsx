@@ -4,7 +4,7 @@ import CustomButton from '../../components/custom-button/custom-button.component
 
 import './product-box.styles.scss';
 
-const ProductBox = ({ imageUrl, name, prices }) => (
+const ProductBox = ({ imageUrl, name, prices, active, handleClick }) => (
     <div className='product-box'>
         <div className='product-box-container'>
             <img src={imageUrl} alt={name} className='product-image' />
@@ -12,9 +12,14 @@ const ProductBox = ({ imageUrl, name, prices }) => (
                 <div className='prices'>
                     {
                         Object.keys(prices).map((keyName, index) => (
-                            <div key={index}>
-                                <p className='ml'>{keyName}ml</p>
-                                <p className='price'>€{prices[keyName]}</p>
+                            <div 
+                                key={index} 
+                                onClick={e => handleClick(e)} 
+                                id={keyName} 
+                                className={active === keyName ? 'price active' : 'price'}
+                            >
+                                <p>{keyName}ml</p>
+                                <p>€{prices[keyName]}</p>
                             </div>
                         ))
                     }
