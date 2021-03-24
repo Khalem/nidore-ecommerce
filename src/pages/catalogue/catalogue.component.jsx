@@ -75,10 +75,15 @@ class Catalogue extends React.Component {
                 <h1 className='catalogue-title'>{this.state.completeData.title}</h1>
                 <Directory data={this.state.data} />
                 <div className='custom-button-container'>
-                    <CustomButton handleClick={this.handleClick} style={{ backgroundColor: 'var(--dark-color)', color: 'var(--background-color)' }}>{
-                        this.state.showMore ? 'See More Results'
-                        : 'Show Less Results'
-                    }</CustomButton>
+                    <CustomButton 
+                        handleClick={this.handleClick}
+                        style={{ backgroundColor: 'var(--dark-color)', color: 'var(--background-color)' }}
+                    >
+                        {
+                            this.state.showMore ? 'See More Results'
+                            : 'Show Less Results'
+                        }
+                    </CustomButton>
                 </div>
             </section>
         );
