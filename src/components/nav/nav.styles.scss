@@ -1,0 +1,36 @@
+.nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--background-color);
+    z-index: 100;
+    transition: all .2s ease-in-out;
+
+    .nav-title {
+        font-family: var(--sans-font);
+        text-transform: uppercase;
+        text-align: center;
+    }
+    
+    .nav-items {
+        position: absolute;
+        top: 10px;
+        right: 50px;
+
+        .nav-item {
+            display: inline-block;
+            margin: 0 10px;
+            cursor: pointer;
+
+            svg {
+                width: 18px;
+            }
+        }
+    }
+}
+
+// used during scroll event listener
+.removeNav {
+    transform: translateY(-100px);
+}
