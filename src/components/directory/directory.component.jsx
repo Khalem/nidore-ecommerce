@@ -4,7 +4,9 @@ import DirectoryItem from '../directory-item/directory-item.component';
 
 import './directory.styles.scss';
 
-const Directory = ({ data }) => {
+const Directory = ({ data, history, match }) => {
+    console.log(history, match);
+
     return (
         <div className='directory-container'>
             <div className='directory'>

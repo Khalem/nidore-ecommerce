@@ -1,9 +1,10 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 
 import './directory-item.styles.scss';
 
-const DirectoryItem = ({ item, index }) => (
-    <div className='product-item' key={index}>
+const DirectoryItem = ({ item, index, history, match }) => (
+    <div className='product-item' key={index} onClick={() => history.push(`${match.url}/${item.id}`)}>
         <img src={item.imageUrl} alt={`${item.name} image`} className='product-image' />
         <div className='product-details'>
             <p className='product-name'>{item.name}</p>
@@ -13,4 +14,4 @@ const DirectoryItem = ({ item, index }) => (
     </div>
 );
 
-export default DirectoryItem;
+export default withRouter(DirectoryItem);

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { withRouter } from 'react-router-dom';
 
 import Directory from '../../components/directory/directory.component';
@@ -60,8 +60,9 @@ class Catalogue extends React.Component {
     }
 
     render() {
+        if (!this.state.loaded) return null;
+
         return (
-            this.state.loaded ?
             <section className='catalogue'>
                 <div className='background-guides-container'>
                     <div className='background-guides'>
@@ -74,13 +75,12 @@ class Catalogue extends React.Component {
                 <h1 className='catalogue-title'>{this.state.completeData.title}</h1>
                 <Directory data={this.state.data} />
                 <div className='custom-button-container'>
-                    <CustomButton handleClick={this.handleClick}>{
+                    <CustomButton handleClick={this.handleClick} style={{ backgroundColor: 'var(--dark-color)', color: 'var(--background-color)' }}>{
                         this.state.showMore ? 'See More Results'
                         : 'Show Less Results'
                     }</CustomButton>
                 </div>
             </section>
-            : <h2>Loading..</h2>
         );
     }
 }
