@@ -1,0 +1,83 @@
+@mixin navPosition {
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 0 20px;
+    z-index: 100;
+    transition: all .2s ease-in-out;
+}
+
+@mixin navTitle {
+    font-family: var(--sans-font);
+    text-transform: uppercase;
+    text-align: left;
+    font-size: 24px;
+}
+
+.mobile-nav {
+    @include navPosition();
+    width: 100%;
+
+    background-color: var(--background-color);
+
+
+    .nav-title {
+        @include navTitle();
+    }
+    
+    .menu-icon-container {
+        position: absolute;
+        top: 22px;
+        right: 75px;
+        cursor: pointer;
+
+        svg {
+            width: 24px;
+        }
+    }
+}
+
+// Side Menu
+.menu {
+    @include navPosition();
+
+    width: 60%;
+    height: 100%;
+    background-color: var(--dark-color);
+    color: var(--background-color);
+    transform: translateX(-120%);
+    transition: all .2s ease-in-out;
+
+    .menu-header {
+        .menu-title {
+            @include navTitle();
+        }
+    }
+
+    .menu-content {
+        padding: 100px 0;
+
+        .nav-items {
+            list-style: none;
+            padding: 0;
+
+            .nav-item {
+                font-family: var(--serif-font);
+                font-size: 24px;
+                margin: 10px 0;
+                cursor: pointer;
+
+                svg {
+                    width: 16px;
+                    margin: 0 10px;
+                    fill: var(--background-color);
+                    opacity: .5;
+                }
+            }
+        }
+    }
+}
+
+.slide-menu-in {
+    transform: translateX(0);
+}

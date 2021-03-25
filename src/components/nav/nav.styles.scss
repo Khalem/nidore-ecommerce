@@ -21,9 +21,10 @@
     .catalogue-list {
         @include listContainerStyles();
 
-        top: 5px;
+        top: 12px;
         left: 75px;
-        font-size: 18px;
+        font-family: var(--sans-font);
+        font-size: 14px;
         font-weight: 500;
 
         .catalogue-item {
