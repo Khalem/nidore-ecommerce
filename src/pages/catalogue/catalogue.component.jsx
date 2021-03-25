@@ -31,6 +31,28 @@ class Catalogue extends React.Component {
         await this.updateResults();
     }
 
+    /* 
+        If a user wants to switch between mens and womens while already on the catalogue, 
+        I need to check for path update to change data
+    */
+    componentDidUpdate() {
+        if (this.props.location.pathname === this.state.pathName) return;
+
+        this.getData(this.props.location.pathname);
+
+        this.setState({ pathName: this.props.location.pathname });
+    }
+
+    getData = async path => {
+        await SHOP_DATA.map(data => {
+            if (data.routeName === path) {
+                this.setState({ completeData: data });
+            }
+        });
+
+        await this.updateResults();
+    }
+
     // This function will either increase or decrease this.state.page depending on this.state.showMore
     handleClick = async () => {
         const { showMore, page } = this.state;
