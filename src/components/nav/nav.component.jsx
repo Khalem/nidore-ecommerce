@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 
 import { Link, useLocation, withRouter } from 'react-router-dom';
 
+import { hideNavOnScroll, checkPathname } from '../../navUtils';
+
 import { ReactComponent as SearchIcon } from '../../assets/search.svg';
 import { ReactComponent as ShoppingBag } from '../../assets/shopping-bag.svg';
 import { ReactComponent as UserIcon } from '../../assets/user.svg';
@@ -21,29 +23,12 @@ const Nav = () => {
         as it's a bit unnecessary
     */
     useEffect(() => {
-        if (pathname === '/') {
-            setShowCatalogue(false);
-        } else {
-            setShowCatalogue(true);
-        }
+        setShowCatalogue(checkPathname(pathname));
     }, [pathname]);
 
     // Function used to hide/show nav bar depending on the direction the user is scrolling
     useEffect(() => {
-        let lastScroll = 0;
-        const nav = document.getElementsByClassName('nav')[0];
-
-        window.onscroll = () => {
-            const currentScroll = document.documentElement.scrollTop || document.body.scrollTop;
-
-            if (currentScroll > 0 && lastScroll <= currentScroll) {
-                lastScroll = currentScroll;
-                nav.classList.add('removeNav');
-            } else {
-                lastScroll = currentScroll;
-                nav.classList.remove('removeNav');
-            }
-        };
+        hideNavOnScroll(document.getElementsByClassName('nav')[0]);
     }, []);
 
     return (
