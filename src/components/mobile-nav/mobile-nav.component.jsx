@@ -45,7 +45,6 @@ const MobileNav = () => {
         }
     },[menuActive]);
 
-
     // Use function in navUtils to check pathname and change state
     useEffect(() => {
         setShowCatalogue(checkPathname(pathname));
@@ -107,7 +106,7 @@ const MobileNav = () => {
                         }
                         <li className='nav-item'><SearchIcon /> Search</li>
                         <li className='nav-item'><ShoppingBag /> Shopping Bag</li>
-                        <li className='nav-item'><UserIcon /> Profile</li>
+                        <li className='nav-item'><Link to='sign-in' style={{ textDecoration: 'none', color: 'var(--background-color)' }}><UserIcon /> Profile</Link></li>
                     </ul>
                 </div>
             </div>

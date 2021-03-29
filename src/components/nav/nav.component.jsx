@@ -18,15 +18,12 @@ const Nav = () => {
         color: 'var(--dark-color)'
     };
 
-    /*
-        I need to hide the catalogue options when on homepage,
-        as it's a bit unnecessary
-    */
+    // Use function in navUtils to check pathname and change state
     useEffect(() => {
         setShowCatalogue(checkPathname(pathname));
     }, [pathname]);
 
-    // Function used to hide/show nav bar depending on the direction the user is scrolling
+    // Use function in navUtils to hide nav on scroll
     useEffect(() => {
         hideNavOnScroll(document.getElementsByClassName('nav')[0]);
     }, []);
@@ -45,7 +42,7 @@ const Nav = () => {
             <ul className='nav-items'>
                 <li className='nav-item'><SearchIcon /></li>
                 <li className='nav-item'><ShoppingBag /></li>
-                <li className='nav-item'><UserIcon /></li>
+                <li className='nav-item'><Link to='/sign-in'><UserIcon /></Link></li>
             </ul>
         </nav>
     );
