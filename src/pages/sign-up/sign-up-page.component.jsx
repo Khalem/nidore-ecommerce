@@ -35,7 +35,8 @@ class SignUpPage extends React.Component {
         const buttonStyle = {
             backgroundColor: 'var(--background-color)',
             color: 'var(--dark-color)',
-            boxShadow: 'none'
+            boxShadow: 'none',
+            margin: '10px 0 20px 0'
         };
 
         return (
