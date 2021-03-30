@@ -8,6 +8,7 @@ import ProductPage from './pages/product/product-page.component';
 import Nav from './components/nav/nav.component';
 import MobileNav from './components/mobile-nav/mobile-nav.component';
 import SignInPage from './pages/sign-in/sign-in-page.component';
+import SignUpPage from './pages/sign-up/sign-up-page.component';
 
 import './App.scss';
 
@@ -27,6 +28,7 @@ function App() {
         <Route exact path='/mens' component={Catalogue} />
         <Route path='/:category(womens|mens)/:productID' component={ProductPage} />
         <Route exact path='/sign-in' component={SignInPage} />
+        <Route exact path='/sign-up' component={SignUpPage} />
       </Switch>
     </Fragment>
   );
