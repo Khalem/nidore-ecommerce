@@ -25,26 +25,6 @@
             margin: 0 0 50px 0;
         }
 
-        .input {
-            width: 100%;
-            margin: 20px auto;
-            padding: 15px 5px;
-            display: block;
-            font-family: var(--sans-font);
-            font-weight: 500;
-            font-size: 16px;
-            border: none;
-            outline: none;
-            box-sizing: border-box;
-            background-color: transparent;
-            color: var(--background-color);
-
-            &::selection {
-                background-color: var(--background-color);
-                color: var(--dark-color);
-            }
-        }
-
         button {
             width: 100%;
             margin: 10px 0 20px 0;

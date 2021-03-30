@@ -1,0 +1,53 @@
+@mixin label {
+    position: absolute;
+    left: 5px;
+    font-family: var(--serif-font);
+    opacity: .5;
+    transition: top .2s ease-in-out;
+}
+
+.input-container {
+    position: relative;
+
+    .input {
+        width: 100%;
+        margin: 20px auto;
+        padding: 15px 5px;
+        display: block;
+        font-family: var(--sans-font);
+        font-weight: 500;
+        font-size: 16px;
+        border: none;
+        border-bottom: 1px solid rgba(255, 255, 255, .2);
+        outline: none;
+        box-sizing: border-box;
+        background-color: transparent;
+        color: var(--background-color);
+
+        &::selection {
+            background-color: var(--background-color);
+            color: var(--dark-color);
+        }
+
+        &:focus {
+            border-bottom: 1px solid white;
+
+            +.input-label, +.active-label {
+                top: -25%;
+                opacity: 1;
+            }
+        }
+    }
+
+    .input-label {
+        @include label();
+
+        top: 30%;
+    }
+
+    .active-label {
+        @include label();
+        
+        top: -25%;
+    }
+}
