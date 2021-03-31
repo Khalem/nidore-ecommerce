@@ -2,6 +2,7 @@ import React, { useEffect, useState, Fragment } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import Hamburger from 'hamburger-react'
 import { auth } from '../../firebase/firebase.utils';
+import { connect } from 'react-redux';
 
 import { hideNavOnScroll, checkPathname } from '../../navUtils';
 
@@ -121,4 +122,8 @@ const MobileNav = ({ currentUser }) => {
     )
 };
 
-export default MobileNav;
+const mapStateToProps = state => ({
+    currentUser: state.user.currentUser
+});
+
+export default connect(mapStateToProps)(MobileNav);
