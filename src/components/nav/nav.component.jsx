@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation, withRouter } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { auth } from '../../firebase/firebase.utils';
+import { connect } from 'react-redux';
 
 import { hideNavOnScroll, checkPathname } from '../../navUtils';
 
@@ -53,4 +54,8 @@ const Nav = ({ currentUser }) => {
     );
 }
 
-export default withRouter(Nav);
+const mapStateToProps = state => ({
+    currentUser: state.user.currentUser
+});
+
+export default connect(mapStateToProps)(Nav);
