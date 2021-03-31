@@ -26,7 +26,7 @@ const CustomInput = ({ handleChange, label, name, value, ...otherProps  }) => {
                 value={value}
                 {...otherProps} 
             />
-            <label for={name} className='input-label' id={label}>{label}</label>
+            <label htmlFor={name} className='input-label' id={label}>{label}</label>
         </div>
     );
 };

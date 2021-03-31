@@ -1,11 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { auth, createUserProfileDocument } from '../../firebase/firebase.utils';
 
 import CustomInput from '../../components/custom-input/custom-input.component';
 import CustomButton from '../../components/custom-button/custom-button.component';
 import FormBox from '../../components/form-box/form-box.component';
 
 import './sign-up-page.styles.scss';
+
 
 class SignUpPage extends React.Component {
     constructor() {
@@ -19,19 +21,44 @@ class SignUpPage extends React.Component {
         }
     }
 
+    // try create user on firebase
+    handleSubmit = async e => {
+        e.preventDefault();
+
+        const { name, email, password, confirmPassword } = this.state;
+
+        if (password !== confirmPassword) {
+            alert("Passwords don't match! Try again.");
+            return;
+        }
+
+        try {
+            // create user
+            const { user } = await auth.createUserWithEmailAndPassword(email, password);
+
+            // create user doc on firestore
+            await createUserProfileDocument(user, { name });
+
+            // reset state
+            this.setState({
+                name: '',
+                email: '',
+                password: '',
+                confirmPassword: ''
+            });
+        } catch (error) {
+            alert(error);
+        }
+    }
+
     handleChange = e => {
         const { name, value } = e.target;
 
         this.setState({ [name]: value });
     }
 
-    handleSubmit = e => {
-        e.preventDefault();
-
-        this.setState({ email: '', password: '' });
-    }
-
     render() {
+        const { name, email, password, confirmPassword } = this.state;
         const buttonStyle = {
             backgroundColor: 'var(--background-color)',
             color: 'var(--dark-color)',
@@ -48,7 +75,7 @@ class SignUpPage extends React.Component {
                         name='name'
                         type='text'
                         handleChange={this.handleChange}
-                        value={this.state.name}
+                        value={name}
                         required
                     />
                     <CustomInput 
@@ -56,7 +83,7 @@ class SignUpPage extends React.Component {
                         name='email'
                         type='email'
                         handleChange={this.handleChange}
-                        value={this.state.email}
+                        value={email}
                         required
                     />
                     <CustomInput 
@@ -64,7 +91,7 @@ class SignUpPage extends React.Component {
                         name='password'
                         type='password'
                         handleChange={this.handleChange}
-                        value={this.state.password}
+                        value={password}
                         required
                     />
                     <CustomInput 
@@ -72,7 +99,7 @@ class SignUpPage extends React.Component {
                         name='confirmPassword'
                         type='password'
                         handleChange={this.handleChange}
-                        value={this.state.confirmPassword}
+                        value={confirmPassword}
                         required
                     />
                     <CustomButton type='submit' style={buttonStyle}>Sign Up</CustomButton>
