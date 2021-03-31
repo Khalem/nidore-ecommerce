@@ -53,10 +53,10 @@ class App extends React.Component {
     return (
       <Fragment>
         <MediaQuery minWidth={1280}>
-          <Nav />
+          <Nav currentUser={this.state.currentUser} />
         </MediaQuery>
         <MediaQuery maxWidth={1280}>
-          <MobileNav />
+          <MobileNav currentUser={this.state.currentUser} />
         </MediaQuery>
         <Switch>
           <Route exact path='/' component={HomePage} />

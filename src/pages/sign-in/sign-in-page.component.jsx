@@ -6,6 +6,7 @@ import CustomButton from '../../components/custom-button/custom-button.component
 import FormBox from '../../components/form-box/form-box.component';
 
 import './sign-in-page.styles.scss';
+import { auth, signInWithGoogle } from '../../firebase/firebase.utils';
 
 class SignInPage extends React.Component {
     constructor() {
@@ -17,16 +18,24 @@ class SignInPage extends React.Component {
         }
     }
 
+    // log in to firebase auth
+    handleSubmit = async e => {
+        e.preventDefault();
+
+        const { email, password } = this.state;
+
+        try {
+            await auth.signInWithEmailAndPassword(email, password);
+            this.setState({ email: '', password: '' });
+        } catch (error) {
+            alert('Error logging in: ', error);
+        }
+    }
+
     handleChange = e => {
         const { name, value } = e.target;
 
         this.setState({ [name]: value });
-    }
-
-    handleSubmit = e => {
-        e.preventDefault();
-
-        this.setState({ email: '', password: '' });
     }
 
     render() {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, Fragment } from 'react';
-
 import { Link, useLocation } from 'react-router-dom';
 import Hamburger from 'hamburger-react'
+import { auth } from '../../firebase/firebase.utils';
 
 import { hideNavOnScroll, checkPathname } from '../../navUtils';
 
@@ -11,7 +11,7 @@ import { ReactComponent as UserIcon } from '../../assets/user.svg';
 
 import './mobile-nav.styles.scss';
 
-const MobileNav = () => {
+const MobileNav = ({ currentUser }) => {
     const { pathname } = useLocation();
     const [showCatalogue, setShowCatalogue] = useState(false);
     const [menuActive, setMenuActive] = useState(false);
@@ -106,7 +106,12 @@ const MobileNav = () => {
                         }
                         <li className='nav-item'><SearchIcon /> Search</li>
                         <li className='nav-item'><ShoppingBag /> Shopping Bag</li>
-                        <li className='nav-item'><Link to='sign-in' style={{ textDecoration: 'none', color: 'var(--background-color)' }}><UserIcon /> Profile</Link></li>
+                        {
+                            currentUser ?
+                            <li className='nav-item sign-out' onClick={() => auth.signOut()}>Sign Out</li>
+                            :
+                            <li className='nav-item'><Link to='sign-in' style={{ textDecoration: 'none', color: 'var(--background-color)' }}><UserIcon /> Profile</Link></li>
+                        }
                     </ul>
                 </div>
             </div>

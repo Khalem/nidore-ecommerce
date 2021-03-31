@@ -1,5 +1,5 @@
 // Function used to check pathname
-export const checkPathname = (pathname) => {
+export const checkPathname = pathname => {
     if (pathname === '/') {
         return false;
     } else {

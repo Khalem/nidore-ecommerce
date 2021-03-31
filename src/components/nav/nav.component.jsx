@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-
 import { Link, useLocation, withRouter } from 'react-router-dom';
+import { auth } from '../../firebase/firebase.utils';
 
 import { hideNavOnScroll, checkPathname } from '../../navUtils';
 
@@ -10,7 +10,7 @@ import { ReactComponent as UserIcon } from '../../assets/user.svg';
 
 import './nav.styles.scss';
 
-const Nav = () => {
+const Nav = ({ currentUser }) => {
     const { pathname } = useLocation();
     const [showCatalogue, setShowCatalogue] = useState(false);
     const linkStyle = {
@@ -42,7 +42,12 @@ const Nav = () => {
             <ul className='nav-items'>
                 <li className='nav-item'><SearchIcon /></li>
                 <li className='nav-item'><ShoppingBag /></li>
-                <li className='nav-item'><Link to='/sign-in'><UserIcon /></Link></li>
+                {
+                    currentUser ?
+                    <li className='nav-item' onClick={() => auth.signOut()}>Sign Out</li>
+                    :
+                    <li className='nav-item'><Link to='/sign-in'><UserIcon /></Link></li>
+                }
             </ul>
         </nav>
     );
