@@ -41,17 +41,19 @@ class ProductPage extends React.Component {
     render() {
         if (!this.state.loaded) return null;
 
-        const { name, brand, bio, imageUrl, prices } = this.state.item;
+        const { id, name, brand, bio, imageUrl, prices } = this.state.item;
 
         return (
             <section className='product-page'>
                 <h1 className='brand-title'>{brand}</h1>
                 <h1 className='product-title'>{name}</h1>
-                <ProductBox 
+                <ProductBox
+                    id={id}
                     imageUrl={imageUrl} 
                     name={name} 
                     prices={prices}
                     active={this.state.active}
+                    brand={brand}
                     handleClick={this.changeSize}
                 />
                 <div className='bio-container'>
