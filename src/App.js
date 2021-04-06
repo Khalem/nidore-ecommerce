@@ -11,6 +11,7 @@ import Nav from './components/nav/nav.component';
 import MobileNav from './components/mobile-nav/mobile-nav.component';
 import SignInPage from './pages/sign-in/sign-in-page.component';
 import SignUpPage from './pages/sign-up/sign-up-page.component';
+import BagPage from './pages/bag/bag-page.component';
 
 import { setCurrentUser } from './redux/user/user.actions';
 
@@ -63,6 +64,7 @@ class App extends React.Component {
           <Route exact path='/sign-up'>
             {this.props.currentUser ? <Redirect to='/' /> : <SignUpPage />}
           </Route>
+          <Route exact path='/shopping-bag' component={BagPage} />
         </Switch>
       </Fragment>
     );

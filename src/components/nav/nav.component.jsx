@@ -42,7 +42,7 @@ const Nav = ({ currentUser }) => {
             <h1 className='nav-title'><Link to='/' style={linkStyle}>Nidore</Link></h1>
             <ul className='nav-items'>
                 <li className='nav-item'><SearchIcon /></li>
-                <li className='nav-item'><ShoppingBag /></li>
+                <li className='nav-item'><Link to='/shopping-bag'><ShoppingBag /></Link></li>
                 {
                     currentUser ?
                     <li className='nav-item' onClick={() => auth.signOut()}>Sign Out</li>

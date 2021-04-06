@@ -14,7 +14,8 @@ const ProductBox = ({ id, imageUrl, name, prices, active, handleClick, brand, ad
             brand,
             name,
             size: active,
-            price: prices[active]
+            price: prices[active],
+            imageUrl
         };
 
         addItemToBag(item);

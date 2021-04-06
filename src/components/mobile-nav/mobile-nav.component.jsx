@@ -106,7 +106,7 @@ const MobileNav = ({ currentUser }) => {
                             : null
                         }
                         <li className='nav-item'><SearchIcon /> Search</li>
-                        <li className='nav-item'><ShoppingBag /> Shopping Bag</li>
+                        <li className='nav-item'><Link to='/shopping-bag' style={{ textDecoration: 'none', color: 'var(--background-color)' }}><ShoppingBag /> Shopping Bag</Link></li>
                         {
                             currentUser ?
                             <li className='nav-item sign-out' onClick={() => auth.signOut()}>Sign Out</li>
