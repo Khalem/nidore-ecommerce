@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { ReactComponent as Arrow } from '../../assets/arrow.svg';
 import CustomButton from '../../components/custom-button/custom-button.component';
+import BagItem from '../../components/bag-item/bag-item.component';
 
 import './bag-page.styles.scss';
 
@@ -29,18 +29,8 @@ const BagPage = ({ bagItems }) => {
         <div className='bag-page'>
             <h1 className='bag-page-title'>Your shopping bag</h1>
             {
-                bagItems.map(({ brand, name, size, price, imageUrl, quantity }) => 
-                    <div className='bag-item'>
-                        <img src={imageUrl} alt={name} className='bag-item-image' />
-                        <div className='bag-item-details'>
-                            <h1>{name} <span>- {size}ml</span></h1>
-                            <h2>{brand}</h2>
-                        </div>
-                        <div className='bag-item-edit'>
-                            <h3 className='quantity'><Arrow className='arrow left-arrow' />{quantity} <Arrow className='arrow' /></h3>
-                            <h3 className='total'><span>total:</span> €{price * quantity}</h3>
-                        </div>
-                    </div>
+                bagItems.map(item => 
+                    <BagItem item={item} />
                 )
             }
             <div className='bag-cta'>
