@@ -1,6 +1,6 @@
 import { BagActionTypes } from './bag.types';
 
-import { addItemToBag } from './bag.utils';
+import { addItemToBag, removeItemFromBag } from './bag.utils';
 
 const INITIAL_STATE = {
     bagItems: []
@@ -12,6 +12,11 @@ const bagReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 bagItems: addItemToBag(state.bagItems, action.payload)
+            };
+        case BagActionTypes.REMOVE_ITEM_FROM_BAG:
+            return {
+                ...state,
+                bagItems: removeItemFromBag(state.bagItems, action.payload)
             };
         default:
             return state;
