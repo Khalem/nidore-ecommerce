@@ -7,8 +7,17 @@
         text-align: center;
         font-family: var(--serif-font);
         font-weight: 400;
-        font-size: 48px;
+        font-size: 32px;
         text-transform: uppercase;
+    }
+
+    .bag-page-secondary-title {
+        text-align: center;
+        font-size: 48px;
+        margin: 0;
+        font-family: var(--serif-font);
+        text-transform: uppercase;
+        margin: 0 initial initial initial;
     }
 
     .bag-cta {
@@ -28,6 +37,28 @@
         }
     }
 
+    .pointer {
+        width: 50px;
+        display: block;
+        margin: 50px auto 0 auto;
+        transition: all .2s ease-in-out;
+    }
+
+    .redirect-container {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        margin: 75px auto;
+
+        .redirect-title {
+            font-family: var(--sans-font);
+            font-size: 24px;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+    }
+
     @media only screen and (min-width: 768px) {
         width: 75%;
 
@@ -39,6 +70,10 @@
                 width: 90%;
                 text-align: right;
             }
+        }
+
+        .redirect-container {
+            width: 50%;
         }
     }
     @media only screen and (min-width: 1280px) {
