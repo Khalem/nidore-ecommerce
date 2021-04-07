@@ -1,13 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { removeItemFromBag, addItemToBag } from '../../redux/bag/bag.actions';
+import { removeItemFromBag, addItemToBag, clearItems } from '../../redux/bag/bag.actions';
 
 import { ReactComponent as Arrow } from '../../assets/arrow.svg';
+import { ReactComponent as ClearIcon } from '../../assets/close.svg';
 
 import './bag-item.styles.scss';
 
-const BagItem = ({ item, removeItemFromBag, addItemToBag }) => {
+const BagItem = ({ item, removeItemFromBag, addItemToBag, clearItems }) => {
     const { imageUrl, name, size, brand, price, quantity } = item;
 
     const removeItem = () => {
@@ -16,6 +17,10 @@ const BagItem = ({ item, removeItemFromBag, addItemToBag }) => {
 
     const addItem = () => {
         addItemToBag(item);
+    };
+
+    const clearItemClick = () => {
+        clearItems(item);
     };
 
     return (
@@ -31,15 +36,17 @@ const BagItem = ({ item, removeItemFromBag, addItemToBag }) => {
                         {quantity} 
                     <Arrow className='arrow' onClick={addItem} />
                 </h3>
-                <h3 className='total'><span>total:</span> €{price * quantity}</h3>
+                <h3 className='total'><span>total:</span> €{(price * quantity).toFixed(2)}</h3>
             </div>
+            <ClearIcon className='clear-item' onClick={clearItemClick}/>
         </div>
     );
 };
 
 const mapDispatchToProps = dispatch => ({
     removeItemFromBag: item => dispatch(removeItemFromBag(item)),
-    addItemToBag: item => dispatch(addItemToBag(item))
+    addItemToBag: item => dispatch(addItemToBag(item)),
+    clearItems: item => dispatch(clearItems(item))
 });
 
 export default connect(null, mapDispatchToProps)(BagItem);

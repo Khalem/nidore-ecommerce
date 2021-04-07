@@ -25,7 +25,7 @@ const BagPage = ({ bagItems, history }) => {
             completeTotal+= price * quantity;
         });
 
-        return completeTotal;
+        return completeTotal.toFixed(2);
     };
 
     // move pointer to cursor position on mouse enter

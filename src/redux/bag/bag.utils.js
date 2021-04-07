@@ -35,3 +35,7 @@ export const removeItemFromBag = (bagItems, itemToRemove) => {
         return bagItems.filter(item => item !== itemToRemove);
     }
 };
+
+export const clearItems = (bagItems, itemToRemove) => {
+    return bagItems.filter(item => item !== itemToRemove);
+};

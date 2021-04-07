@@ -1,4 +1,5 @@
 .bag-item {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -64,6 +65,16 @@
                 font-weight: 400;
             }
         }
+    }
+
+    .clear-item {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 14px;
+        height: 14px;
+        fill: var(--background-color);
+        cursor: pointer;
     }
 
     @media only screen and (min-width: 768px) {

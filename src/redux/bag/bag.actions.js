@@ -9,3 +9,8 @@ export const removeItemFromBag = item => ({
     type: BagActionTypes.REMOVE_ITEM_FROM_BAG,
     payload: item
 });
+
+export const clearItems = item => ({
+    type: BagActionTypes.CLEAR_ITEMS,
+    payload: item
+});
