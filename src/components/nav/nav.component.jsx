@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { auth } from '../../firebase/firebase.utils';
 import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
 import { hideNavOnScroll, checkPathname } from '../../navUtils';
 
@@ -9,9 +10,12 @@ import { ReactComponent as SearchIcon } from '../../assets/search.svg';
 import { ReactComponent as ShoppingBag } from '../../assets/shopping-bag.svg';
 import { ReactComponent as UserIcon } from '../../assets/user.svg';
 
+import { selectCurrentUser } from '../../redux/user/user.selectors';
+import { selectBagItemsCount } from '../../redux/bag/bag.selectors';
+
 import './nav.styles.scss';
 
-const Nav = ({ currentUser }) => {
+const Nav = ({ currentUser, bagItemsCount }) => {
     const { pathname } = useLocation();
     const [showCatalogue, setShowCatalogue] = useState(false);
     const linkStyle = {
@@ -42,7 +46,7 @@ const Nav = ({ currentUser }) => {
             <h1 className='nav-title'><Link to='/' style={linkStyle}>Nidore</Link></h1>
             <ul className='nav-items'>
                 <li className='nav-item'><SearchIcon /></li>
-                <li className='nav-item'><Link to='/shopping-bag'><ShoppingBag /></Link></li>
+                <li className='nav-item'><Link to='/shopping-bag'><ShoppingBag /></Link>{bagItemsCount ? <span className='item-count' /> : null}</li>
                 {
                     currentUser ?
                     <li className='nav-item' onClick={() => auth.signOut()}>Sign Out</li>
@@ -54,8 +58,9 @@ const Nav = ({ currentUser }) => {
     );
 }
 
-const mapStateToProps = state => ({
-    currentUser: state.user.currentUser
+const mapStateToProps = createStructuredSelector({
+    currentUser: selectCurrentUser,
+    bagItemsCount: selectBagItemsCount
 });
 
 export default connect(mapStateToProps)(Nav);

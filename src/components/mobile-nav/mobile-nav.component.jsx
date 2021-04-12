@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import Hamburger from 'hamburger-react'
 import { auth } from '../../firebase/firebase.utils';
 import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
 import { hideNavOnScroll, checkPathname } from '../../navUtils';
 
@@ -10,9 +11,12 @@ import { ReactComponent as SearchIcon } from '../../assets/search.svg';
 import { ReactComponent as ShoppingBag } from '../../assets/shopping-bag.svg';
 import { ReactComponent as UserIcon } from '../../assets/user.svg';
 
+import { selectCurrentUser } from '../../redux/user/user.selectors';
+import { selectBagItemsCount } from '../../redux/bag/bag.selectors';
+
 import './mobile-nav.styles.scss';
 
-const MobileNav = ({ currentUser }) => {
+const MobileNav = ({ currentUser, bagItemsCount }) => {
     const { pathname } = useLocation();
     const [showCatalogue, setShowCatalogue] = useState(false);
     const [menuActive, setMenuActive] = useState(false);
@@ -106,7 +110,11 @@ const MobileNav = ({ currentUser }) => {
                             : null
                         }
                         <li className='nav-item'><SearchIcon /> Search</li>
-                        <li className='nav-item'><Link to='/shopping-bag' style={{ textDecoration: 'none', color: 'var(--background-color)' }}><ShoppingBag /> Shopping Bag</Link></li>
+                        <li className='nav-item'>
+                            <Link to='/shopping-bag' style={{ textDecoration: 'none', color: 'var(--background-color)' }}>
+                                <ShoppingBag /> Shopping Bag {bagItemsCount ? <span className='item-count' /> : null}
+                            </Link>
+                        </li>
                         {
                             currentUser ?
                             <li className='nav-item sign-out' onClick={() => auth.signOut()}>Sign Out</li>
@@ -122,8 +130,9 @@ const MobileNav = ({ currentUser }) => {
     )
 };
 
-const mapStateToProps = state => ({
-    currentUser: state.user.currentUser
+const mapStateToProps = createStructuredSelector({
+    currentUser: selectCurrentUser,
+    bagItemsCount: selectBagItemsCount
 });
 
 export default connect(mapStateToProps)(MobileNav);

@@ -8,8 +8,10 @@ import BagItem from '../../components/bag-item/bag-item.component';
 import { ReactComponent as Pointer } from '../../assets/pointing-down.svg';
 
 import './bag-page.styles.scss';
+import { createStructuredSelector } from 'reselect';
+import { selectBagItems, selectBagItemsTotal } from '../../redux/bag/bag.selectors';
 
-const BagPage = ({ bagItems, history }) => {
+const BagPage = ({ bagItems, bagItemsTotal, history }) => {
     const buttonStyles = {
         backgroundColor: 'var(--dark-color)',
         color: 'var(--background-color)',
@@ -17,15 +19,6 @@ const BagPage = ({ bagItems, history }) => {
         minWidth: '35%',
         padding: '20px 10px',
         fontWeight: '500'
-    };
-    
-    const getCompleteTotal = () => {
-        let completeTotal = 0;
-        bagItems.forEach(({ price, quantity }) => {
-            completeTotal+= price * quantity;
-        });
-
-        return completeTotal.toFixed(2);
     };
 
     // move pointer to cursor position on mouse enter
@@ -53,12 +46,12 @@ const BagPage = ({ bagItems, history }) => {
                 <Fragment>
                     <h1 className='bag-page-title'>Your shopping bag</h1>
                     {
-                        bagItems.map(item => 
-                            <BagItem item={item} />
+                        bagItems.map((item, index) => 
+                            <BagItem item={item} key={index} />
                         )
                     }
                     <div className='bag-cta'>
-                        <h1 className='complete-total'>total: €{getCompleteTotal()}</h1>
+                        <h1 className='complete-total'>total: €{bagItemsTotal.toFixed(2)}</h1>
                         <CustomButton name='checkout' style={buttonStyles}>Go to Checkout</CustomButton>
                     </div>
                 </Fragment>
@@ -89,8 +82,9 @@ const BagPage = ({ bagItems, history }) => {
     );
 };
 
-const mapStateToProps = ({ bag }) => ({
-    bagItems: bag.bagItems
+const mapStateToProps = createStructuredSelector({
+    bagItems: selectBagItems,
+    bagItemsTotal: selectBagItemsTotal
 });
 
 export default connect(mapStateToProps)(withRouter(BagPage));
