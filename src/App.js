@@ -3,6 +3,7 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import MediaQuery from 'react-responsive';
 import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
 import HomePage from './pages/homepage/homepage.component';
 import Catalogue from './pages/catalogue/catalogue.component';
@@ -12,8 +13,10 @@ import MobileNav from './components/mobile-nav/mobile-nav.component';
 import SignInPage from './pages/sign-in/sign-in-page.component';
 import SignUpPage from './pages/sign-up/sign-up-page.component';
 import BagPage from './pages/bag/bag-page.component';
+import Checkout from './pages/checkout/checkout.component';
 
 import { setCurrentUser } from './redux/user/user.actions';
+import { selectCurrentUser } from './redux/user/user.selectors';
 
 import './App.scss';
 
@@ -65,14 +68,17 @@ class App extends React.Component {
             {this.props.currentUser ? <Redirect to='/' /> : <SignUpPage />}
           </Route>
           <Route exact path='/shopping-bag' component={BagPage} />
+          <Route exact path='/checkout'>
+            {this.props.currentUser ? <Checkout /> : <Redirect to='/sign-in' />}
+          </Route>
         </Switch>
       </Fragment>
     );
   }
 }
 
-const mapStateToProps = ({ user }) => ({
-  currentUser: user.currentUser
+const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser
 });
 
 const mapDispatchToProps = dispatch => ({

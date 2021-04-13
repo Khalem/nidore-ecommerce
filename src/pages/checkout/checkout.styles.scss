@@ -1,0 +1,21 @@
+.checkout {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .checkout-title {
+        font-family: var(--serif-font);
+        font-size: 48px;
+        text-align: center;
+        text-transform: uppercase;
+        margin: 0;
+        padding: 100px 0;
+    }
+
+    .form-title {
+        font-family: var(--sans-font);
+        font-size: 18px;
+        padding: 10px 0;
+    }
+}

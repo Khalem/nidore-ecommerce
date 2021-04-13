@@ -52,7 +52,7 @@ const BagPage = ({ bagItems, bagItemsTotal, history }) => {
                     }
                     <div className='bag-cta'>
                         <h1 className='complete-total'>total: €{bagItemsTotal.toFixed(2)}</h1>
-                        <CustomButton name='checkout' style={buttonStyles}>Go to Checkout</CustomButton>
+                        <CustomButton name='checkout' style={buttonStyles} handleClick={() => history.push('/checkout')}>Go to Checkout</CustomButton>
                     </div>
                 </Fragment>
                 :
