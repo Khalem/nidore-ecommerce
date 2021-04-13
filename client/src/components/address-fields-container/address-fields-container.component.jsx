@@ -21,11 +21,11 @@ class AddressFieldsContainer extends React.Component {
         Doing so, I need to split the input name to change the appropriate state
     */
     handleChange = e => {
-        const { name, value } = e.target;
+        let { name, value } = e.target;
 
-        const correctName = name.split("_")[1];
+        name = name.split("_")[1];
 
-        this.setState({ [correctName]: value });
+        this.setState({ [name]: value });
     }
 
     render() {

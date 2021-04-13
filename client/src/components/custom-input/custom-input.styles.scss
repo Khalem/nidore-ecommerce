@@ -1,7 +1,7 @@
 @mixin label {
     position: absolute;
     left: 5px;
-    font-family: var(--serif-font);
+    font-family: var(--sans-font);
     opacity: .5;
     pointer-events: none;
     transition: top .2s ease-in-out;

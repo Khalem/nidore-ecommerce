@@ -18,5 +18,5 @@ export const selectBagItemsTotal = createSelector(
     [selectBagItems],
     bagItems => bagItems.reduce(
         (accumalatedQuantity, bagItem) => accumalatedQuantity + bagItem.quantity * bagItem.price, 0
-    )
+    ).toFixed(2)
 );
