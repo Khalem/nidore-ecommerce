@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import { withRouter } from 'react-router';
 import Switch from 'react-switch';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import axios from 'axios';
@@ -8,18 +9,28 @@ import axios from 'axios';
 import FormBox from '../../components/form-box/form-box.component';
 import AddressFieldsContainer from '../../components/address-fields-container/address-fields-container.component';
 import CustomButton from '../../components/custom-button/custom-button.component';
+import CheckoutSuccess from '../../components/checkout-success/checkout-success.component';
 
-import { selectBagItemsTotal } from '../../redux/bag/bag.selectors';
+import { selectBagItemsCount, selectBagItemsTotal } from '../../redux/bag/bag.selectors';
 import { selectCurrentUser } from '../../redux/user/user.selectors';
+import { clearAllItemsFromBag } from '../../redux/bag/bag.actions';
 
 import './checkout.styles.scss';
 
-const Checkout = ({ total, currentUser }) => {
+const Checkout = ({ total, currentUser, dispatch, bagItemsCount, history }) => {
     const [sameAddress, setSameAddress] = useState(true);
     const [isProcessing, setProcessingTo] = useState(false);
+    const [orderNumber, setOrderNumber] = useState(0);
 
     const stripe = useStripe();
     const elements = useElements();
+
+    // if user has no items in bag, and hasn't successfully completed order, redirect
+    useEffect(() => {
+        if (!bagItemsCount && !orderNumber) {
+            history.push('/');
+        }
+    },[]);
 
     const handleFormSubmit = async event => {
         event.preventDefault();
@@ -41,11 +52,11 @@ const Checkout = ({ total, currentUser }) => {
         setProcessingTo(true);
 
         const cardElement = elements.getElement('card');
-
         try {
+            const amount = total * 100;
             // send checkout data to backend to get clientSecret for payment
-            const { data: clientSecret } = await axios.post('/payment_intents', {
-                amount: total * 100,
+            const { data } = await axios.post('/payment_intents', {
+                amount: amount.toFixed(0),
                 name: currentUser.name,
                 shippingAddress: sameAddress ? billingAddress
                                 : {
@@ -56,6 +67,8 @@ const Checkout = ({ total, currentUser }) => {
                                     country: 'IE'
                                 }
             });
+
+            const { clientSecret, stripeOrderNumber } = data;
             
             // get payment method
             const paymentMethodReq = await stripe.createPaymentMethod({
@@ -81,12 +94,13 @@ const Checkout = ({ total, currentUser }) => {
                 return;
             }
 
+            // payment successful
             setProcessingTo(false);
-            alert('Payment successful!');
+            dispatch(clearAllItemsFromBag());
+            setOrderNumber(stripeOrderNumber);
         } catch (error) {
             alert(error.message);
         }
-
     };
 
     const iframeStyles = {
@@ -103,7 +117,7 @@ const Checkout = ({ total, currentUser }) => {
             color: "#ff1749"
         },
         complete: {
-            iconColor: "##17ff3a",
+            iconColor: "#17ff3a",
             color: "#17ff3a"
         }
     };
@@ -113,6 +127,12 @@ const Checkout = ({ total, currentUser }) => {
         style: iframeStyles,
         hidePostalCode: true
     };
+
+    if (orderNumber) {
+        return (
+            <CheckoutSuccess orderNumber={orderNumber} />
+        );
+    }
 
     return (
         <section className='checkout'>
@@ -135,6 +155,7 @@ const Checkout = ({ total, currentUser }) => {
                 </label>
                 <div className='card-container'>
                     <h2 className='form-title'>Card Details</h2>
+                    <p className='card-warning'>Use test card: 4242 4242 4242 4242 04/25 222</p>
                     <CardElement options={cardElementOpts} />
                 </div>
                 <CustomButton style={{ fontWeight: 700, margin: '30px 0 0 0' }}>
@@ -145,9 +166,10 @@ const Checkout = ({ total, currentUser }) => {
     );
 };
 
-const mapStatetoProps = createStructuredSelector({
+const mapStateToProps = createStructuredSelector({
     total: selectBagItemsTotal,
+    bagItemsCount: selectBagItemsCount,
     currentUser: selectCurrentUser
 });
 
-export default connect(mapStatetoProps)(Checkout);
+export default connect(mapStateToProps)(withRouter(Checkout));

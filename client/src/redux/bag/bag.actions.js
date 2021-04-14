@@ -14,3 +14,7 @@ export const clearItems = item => ({
     type: BagActionTypes.CLEAR_ITEMS,
     payload: item
 });
+
+export const clearAllItemsFromBag = () => ({
+    type: BagActionTypes.CLEAR_ALL_ITEMS_FROM_BAG
+});

@@ -112,7 +112,7 @@ const MobileNav = ({ currentUser, bagItemsCount }) => {
                         <li className='nav-item'><SearchIcon /> Search</li>
                         <li className='nav-item'>
                             <Link to='/shopping-bag' style={{ textDecoration: 'none', color: 'var(--background-color)' }}>
-                                <ShoppingBag /> Shopping Bag {bagItemsCount ? <span className='item-count' /> : null}
+                                <ShoppingBag className={bagItemsCount ? 'item-count' : ''}/> Shopping Bag
                             </Link>
                         </li>
                         {

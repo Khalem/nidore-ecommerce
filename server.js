@@ -29,18 +29,24 @@ app.post('/payment_intents', async (req, res) => {
     try {
         const { amount, name, shippingAddress } = req.body;
 
-        console.log(shippingAddress);
+        /* 
+            as theres no way for me to actually get an order number, I'm going to simulate one with a random number
+            (this is required as I'm going to use an order number on the checkout success page)
+            I could generate it on that page, but this way the order number will at least be saved in stripe
+        */
+        const orderNumber = Math.random() * (200000, 100000) + 100000;
 
         const paymentIntent = await stripe.paymentIntents.create({
             amount,
             currency: 'eur',
             shipping: {
                 name,
-                address: shippingAddress
+                address: shippingAddress,
+                tracking_number: orderNumber.toFixed(0)
             }
         });
 
-        res.status(200).send(paymentIntent.client_secret);
+        res.status(200).send({ clientSecret: paymentIntent.client_secret, stripeOrderNumber: orderNumber.toFixed(0) });
     } catch (error) {
         res.status(500).json({ statusCode: 500, message: error.message });
     }

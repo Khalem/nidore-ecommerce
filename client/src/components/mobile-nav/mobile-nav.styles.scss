@@ -72,13 +72,8 @@
                 }
 
                 .item-count {
-                    position: absolute;
-                    top: 0;
-                    right: 30%;
-                    width: 5px;
-                    height: 5px;
-                    border-radius: 50%;
-                    background-color: #ff2b4f;
+                    opacity: 1;
+                    fill: #ff2b4f;
                 }
 
                 &:hover {

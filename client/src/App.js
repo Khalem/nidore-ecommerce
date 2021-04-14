@@ -19,6 +19,7 @@ import { setCurrentUser } from './redux/user/user.actions';
 import { selectCurrentUser } from './redux/user/user.selectors';
 
 import './App.scss';
+import { selectBagItemsCount } from './redux/bag/bag.selectors';
 
 class App extends React.Component {
   unsubscribeFromAuth = null;
@@ -78,7 +79,8 @@ class App extends React.Component {
 }
 
 const mapStateToProps = createStructuredSelector({
-  currentUser: selectCurrentUser
+  currentUser: selectCurrentUser,
+  bagItemCount: selectBagItemsCount 
 });
 
 const mapDispatchToProps = dispatch => ({
