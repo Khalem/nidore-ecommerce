@@ -1,11 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { ToastContainer, toast } from 'react-toastify';
+
 
 import CustomButton from '../../components/custom-button/custom-button.component';
 
 import { addItemToBag } from '../../redux/bag/bag.actions';
 
 import './product-box.styles.scss';
+import 'react-toastify/dist/ReactToastify.css';
+import ProductToast from '../product-toast/product-toast.component';
 
 const ProductBox = ({ id, imageUrl, name, prices, active, handleClick, brand, addItemToBag }) => {
     const addToBag = () => {
@@ -19,6 +23,13 @@ const ProductBox = ({ id, imageUrl, name, prices, active, handleClick, brand, ad
         };
 
         addItemToBag(item);
+        toast(<ProductToast 
+            imageUrl={imageUrl}
+            name={name}
+            size={active}
+        />, {
+            position: toast.POSITION.TOP_CENTER
+        });
     };
 
     return (
@@ -46,6 +57,9 @@ const ProductBox = ({ id, imageUrl, name, prices, active, handleClick, brand, ad
                     </CustomButton>
                 </div>
             </div>
+            <ToastContainer 
+
+            />
         </div>
     );
 }

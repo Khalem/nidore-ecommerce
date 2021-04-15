@@ -5,6 +5,7 @@ import { withRouter } from 'react-router';
 import Switch from 'react-switch';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
 
 import FormBox from '../../components/form-box/form-box.component';
 import AddressFieldsContainer from '../../components/address-fields-container/address-fields-container.component';
@@ -16,6 +17,7 @@ import { selectCurrentUser } from '../../redux/user/user.selectors';
 import { clearAllItemsFromBag } from '../../redux/bag/bag.actions';
 
 import './checkout.styles.scss';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Checkout = ({ total, currentUser, dispatch, bagItemsCount, history }) => {
     const [sameAddress, setSameAddress] = useState(true);
@@ -78,7 +80,9 @@ const Checkout = ({ total, currentUser, dispatch, bagItemsCount, history }) => {
             });
 
             if (paymentMethodReq.error) {
-                alert(paymentMethodReq.error.message);
+                toast.error(`${paymentMethodReq.error.message}`,{
+                    position: toast.POSITION.TOP_CENTER
+                });
                 setProcessingTo(false);
                 return;
             }
@@ -89,7 +93,9 @@ const Checkout = ({ total, currentUser, dispatch, bagItemsCount, history }) => {
             });
 
             if (error) {
-                alert(error.message);
+                toast.error(`${error.message}`, {
+                    position: toast.POSITION.TOP_CENTER
+                });
                 setProcessingTo(false);
                 return;
             }
@@ -99,7 +105,9 @@ const Checkout = ({ total, currentUser, dispatch, bagItemsCount, history }) => {
             dispatch(clearAllItemsFromBag());
             setOrderNumber(stripeOrderNumber);
         } catch (error) {
-            alert(error.message);
+            toast.error(`${error.message}`, {
+                position: toast.POSITION.TOP_CENTER
+            });
         }
     };
 
@@ -162,6 +170,7 @@ const Checkout = ({ total, currentUser, dispatch, bagItemsCount, history }) => {
                     {isProcessing ? 'Processing...' : `Pay €${total}`}
                 </CustomButton>
             </FormBox>
+            <ToastContainer />
         </section>
     );
 };

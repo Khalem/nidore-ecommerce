@@ -17,9 +17,9 @@ import Checkout from './pages/checkout/checkout.component';
 
 import { setCurrentUser } from './redux/user/user.actions';
 import { selectCurrentUser } from './redux/user/user.selectors';
+import { selectBagItemsCount } from './redux/bag/bag.selectors';
 
 import './App.scss';
-import { selectBagItemsCount } from './redux/bag/bag.selectors';
 
 class App extends React.Component {
   unsubscribeFromAuth = null;

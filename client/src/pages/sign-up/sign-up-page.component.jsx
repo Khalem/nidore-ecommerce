@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 import { auth, createUserProfileDocument } from '../../firebase/firebase.utils';
 
 import CustomInput from '../../components/custom-input/custom-input.component';
@@ -8,6 +9,7 @@ import FormBox from '../../components/form-box/form-box.component';
 
 import './sign-up-page.styles.scss';
 
+import 'react-toastify/dist/ReactToastify.css';
 
 class SignUpPage extends React.Component {
     constructor() {
@@ -17,7 +19,8 @@ class SignUpPage extends React.Component {
             name: '',
             email: '',
             password: '',
-            confirmPassword: ''
+            confirmPassword: '',
+            processing: false
         }
     }
 
@@ -25,10 +28,15 @@ class SignUpPage extends React.Component {
     handleSubmit = async e => {
         e.preventDefault();
 
+        await this.setState({ processing: true });
+
         const { name, email, password, confirmPassword } = this.state;
 
         if (password !== confirmPassword) {
-            alert("Passwords don't match! Try again.");
+            toast.warning("Passwords don't match! Try again.", {
+                position: toast.POSITION.TOP_CENTER
+            });
+            await this.setState({ processing: false });
             return;
         }
 
@@ -47,8 +55,12 @@ class SignUpPage extends React.Component {
                 confirmPassword: ''
             });
         } catch (error) {
-            alert(error);
+            toast.error(`${error}`, {
+                position: toast.POSITION.TOP_CENTER
+            });
         }
+
+        await this.setState({ processing: false });
     }
 
     handleChange = e => {
@@ -102,9 +114,10 @@ class SignUpPage extends React.Component {
                         value={confirmPassword}
                         required
                     />
-                    <CustomButton type='submit' style={buttonStyle}>Sign Up</CustomButton>
+                    <CustomButton type='submit' style={buttonStyle}>{this.state.processing ? 'Processing...' : 'Sign Up'}</CustomButton>
                     <p><Link to='/sign-in' style={{ textDecoration: 'none', color: 'var(--background-color)' }}>Already have an account?</Link></p>
                 </FormBox>
+                <ToastContainer />
             </section>
         );
     }

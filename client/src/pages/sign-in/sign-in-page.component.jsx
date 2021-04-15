@@ -1,12 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+
+import { auth, signInWithGoogle } from '../../firebase/firebase.utils';
 
 import CustomInput from '../../components/custom-input/custom-input.component';
 import CustomButton from '../../components/custom-button/custom-button.component';
 import FormBox from '../../components/form-box/form-box.component';
 
 import './sign-in-page.styles.scss';
-import { auth, signInWithGoogle } from '../../firebase/firebase.utils';
+import 'react-toastify/dist/ReactToastify.css';
 
 class SignInPage extends React.Component {
     constructor() {
@@ -14,7 +17,8 @@ class SignInPage extends React.Component {
 
         this.state = {
             email: '',
-            password: ''
+            password: '',
+            processing: false
         }
     }
 
@@ -22,14 +26,20 @@ class SignInPage extends React.Component {
     handleSubmit = async e => {
         e.preventDefault();
 
+        await this.setState({ processing: true });
+
         const { email, password } = this.state;
 
         try {
             await auth.signInWithEmailAndPassword(email, password);
             this.setState({ email: '', password: '' });
         } catch (error) {
-            alert('Error logging in: ', error);
+            toast.error(`${error}`, {
+                position: toast.POSITION.TOP_CENTER
+            });
         }
+
+        await this.setState({ processing: false });
     }
 
     handleChange = e => {
@@ -66,9 +76,10 @@ class SignInPage extends React.Component {
                         value={this.state.password}
                         required
                     />
-                    <CustomButton type='submit' style={buttonStyle}>Sign In</CustomButton>
+                    <CustomButton type='submit' style={buttonStyle}>{this.state.processing ? 'Processing...' : 'Sign In'}</CustomButton>
                     <p><Link to='/sign-up' style={{ textDecoration: 'none', color: 'var(--background-color)' }}>Don't have an account?</Link></p>
                 </FormBox>
+                <ToastContainer />
             </section>
         );
     }
