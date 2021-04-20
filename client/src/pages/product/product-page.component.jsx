@@ -20,14 +20,30 @@ class ProductPage extends React.Component {
     }
 
     componentDidMount() {
-        // When I implement firebase I'll query using UID instead of looping through data
+        this.fetchData();
+    }
+
+    componentDidUpdate() {
+        const { productID, category } = this.props.match.params;
+
+        if (this.state.productID === productID && this.state.category === category) {
+            return;
+        }
+
+        this.fetchData();
+    }
+
+    // When I implement firebase I'll query using UID instead of looping through data
+    fetchData = () => {
+        const { productID, category } = this.props.match.params;
+
         SHOP_DATA.forEach(data => {
-            if (data.title.toLowerCase() === this.state.category.toLowerCase()) {
+            if (data.title.toLowerCase() === category.toLowerCase()) {
                 data.items.forEach(item => {
-                    if (item.id === parseInt(this.state.productID)) {
+                    if (item.id === parseInt(productID)) {
                         const active = Object.keys(item.prices)[0];
 
-                        this.setState({ item, loaded: true, active });
+                        this.setState({ item, loaded: true, active, category, productID});
                     }
                 });
             }

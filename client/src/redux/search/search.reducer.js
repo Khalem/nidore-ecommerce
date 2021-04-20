@@ -6,15 +6,10 @@ const INITIAL_STATE = {
 
 const searchReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
-        case SearchActionTypes.SHOW_SEARCH:
+        case SearchActionTypes.CHANGE_SEARCH_STATUS:
             return {
                 ...state,
-                hidden: true
-            };
-        case SearchActionTypes.HIDE_SEARCH:
-            return {
-                ...state,
-                hidden: false
+                hidden: !state.hidden
             };
         default:
             return state;

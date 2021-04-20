@@ -14,9 +14,11 @@ import { ReactComponent as UserIcon } from '../../assets/user.svg';
 import { selectCurrentUser } from '../../redux/user/user.selectors';
 import { selectBagItemsCount } from '../../redux/bag/bag.selectors';
 
+import { changeSearchStatus } from '../../redux/search/search.actions';
+
 import './mobile-nav.styles.scss';
 
-const MobileNav = ({ currentUser, bagItemsCount }) => {
+const MobileNav = ({ currentUser, bagItemsCount, changeSearchStatus }) => {
     const { pathname } = useLocation();
     const [showCatalogue, setShowCatalogue] = useState(false);
     const [menuActive, setMenuActive] = useState(false);
@@ -109,7 +111,7 @@ const MobileNav = ({ currentUser, bagItemsCount }) => {
                             </Fragment>
                             : null
                         }
-                        <li className='nav-item'><SearchIcon /> Search</li>
+                        <li className='nav-item' onClick={() => changeSearchStatus()}><SearchIcon /> Search</li>
                         <li className='nav-item'>
                             <Link to='/shopping-bag' style={{ textDecoration: 'none', color: 'var(--background-color)' }}>
                                 <ShoppingBag className={bagItemsCount ? 'item-count' : ''}/> Shopping Bag
@@ -135,4 +137,8 @@ const mapStateToProps = createStructuredSelector({
     bagItemsCount: selectBagItemsCount
 });
 
-export default connect(mapStateToProps)(MobileNav);
+const mapDispatchToProps = dispatch => ({
+    changeSearchStatus: () => dispatch(changeSearchStatus())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(MobileNav);

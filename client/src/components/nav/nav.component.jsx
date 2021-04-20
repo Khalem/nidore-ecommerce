@@ -12,10 +12,11 @@ import { ReactComponent as UserIcon } from '../../assets/user.svg';
 
 import { selectCurrentUser } from '../../redux/user/user.selectors';
 import { selectBagItemsCount } from '../../redux/bag/bag.selectors';
+import { changeSearchStatus } from '../../redux/search/search.actions';
 
 import './nav.styles.scss';
 
-const Nav = ({ currentUser, bagItemsCount }) => {
+const Nav = ({ currentUser, bagItemsCount, changeSearchStatus }) => {
     const { pathname } = useLocation();
     const [showCatalogue, setShowCatalogue] = useState(false);
     const linkStyle = {
@@ -45,7 +46,7 @@ const Nav = ({ currentUser, bagItemsCount }) => {
             }
             <h1 className='nav-title'><Link to='/' style={linkStyle}>Nidore</Link></h1>
             <ul className='nav-items'>
-                <li className='nav-item'><SearchIcon /></li>
+                <li className='nav-item' onClick={() => changeSearchStatus()}><SearchIcon /></li>
                 <li className='nav-item'><Link to='/shopping-bag'><ShoppingBag /></Link>{bagItemsCount ? <span className='item-count' /> : null}</li>
                 {
                     currentUser ?
@@ -63,4 +64,8 @@ const mapStateToProps = createStructuredSelector({
     bagItemsCount: selectBagItemsCount
 });
 
-export default connect(mapStateToProps)(Nav);
+const mapDispatchToProps = dispatch => ({
+    changeSearchStatus: () => dispatch(changeSearchStatus())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Nav);

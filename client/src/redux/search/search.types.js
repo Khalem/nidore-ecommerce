@@ -1,4 +1,3 @@
 export const SearchActionTypes = {
-    HIDE_SEARCH: 'HIDE_SEARCH',
-    SHOW_SEARCH: 'SHOW_SEARCH'
+    CHANGE_SEARCH_STATUS: 'CHANGE_SEARCH_STATUS'
 };

@@ -1,9 +1,5 @@
-import { SearchActionTypes } from './search.reducer';
+import { SearchActionTypes } from './search.types';
 
-export const hideSearch = () => ({
-    type: SearchActionTypes.HIDE_SEARCH
-});
-
-export const showSearch = () => ({
-    type: SearchActionTypes.SHOW_SEARCH
+export const changeSearchStatus = () => ({
+    type: SearchActionTypes.CHANGE_SEARCH_STATUS
 });
