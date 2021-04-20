@@ -14,6 +14,7 @@ import SignInPage from './pages/sign-in/sign-in-page.component';
 import SignUpPage from './pages/sign-up/sign-up-page.component';
 import BagPage from './pages/bag/bag-page.component';
 import Checkout from './pages/checkout/checkout.component';
+import Search from './components/search/search.component';
 
 import { setCurrentUser } from './redux/user/user.actions';
 import { selectCurrentUser } from './redux/user/user.selectors';
@@ -56,6 +57,7 @@ class App extends React.Component {
         <MediaQuery maxWidth={1280}>
           <MobileNav />
         </MediaQuery>
+        <Search />
         <Switch>
           <Route exact path='/' component={HomePage} />
           <Redirect strict exact from='/(womens|mens)/' to={'/(womens|mens)'} />

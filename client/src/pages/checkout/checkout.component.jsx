@@ -151,7 +151,7 @@ const Checkout = ({ total, currentUser, dispatch, bagItemsCount, history }) => {
                 {
                     !sameAddress ?
                     <div className='billing-address'>
-                        <h2 className='form-title'>Billing Address</h2>
+                        <h2 className='form-title'>Shipping Address</h2>
                         <AddressFieldsContainer addressType='shipping' />
                     </div>
                     : null

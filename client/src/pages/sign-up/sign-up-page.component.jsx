@@ -8,7 +8,6 @@ import CustomButton from '../../components/custom-button/custom-button.component
 import FormBox from '../../components/form-box/form-box.component';
 
 import './sign-up-page.styles.scss';
-
 import 'react-toastify/dist/ReactToastify.css';
 
 class SignUpPage extends React.Component {

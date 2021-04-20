@@ -4,12 +4,12 @@ import { ToastContainer, toast } from 'react-toastify';
 
 
 import CustomButton from '../../components/custom-button/custom-button.component';
+import ProductToast from '../product-toast/product-toast.component';
 
 import { addItemToBag } from '../../redux/bag/bag.actions';
 
 import './product-box.styles.scss';
 import 'react-toastify/dist/ReactToastify.css';
-import ProductToast from '../product-toast/product-toast.component';
 
 const ProductBox = ({ id, imageUrl, name, prices, active, handleClick, brand, addItemToBag }) => {
     const addToBag = () => {
