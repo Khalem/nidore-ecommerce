@@ -1,115 +1,85 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import Directory from '../../components/directory/directory.component';
 import CustomButton from '../../components/custom-button/custom-button.component';
 
-import SHOP_DATA from '../../data/shopData';
+import { selectCategory, selectIsDataLoaded } from '../../redux/shop/shop.selectors';
 
 import './catalogue.styles.scss';
 
-class Catalogue extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            pathName: props.history.location.pathname,
-            completeData: {},
-            data: {},
-            page: 1,
-            loaded: false,
-            showMore: true
-        }
-    }
+const Catalogue = ({ data, isLoaded, location }) => {
+    const [page, setPage] = useState(1);
+    const [showMore, setShowMore] = useState(true);
+    const [paginatedData, setPaginatedData] = useState([]);
 
-    async componentDidMount() {
-        await SHOP_DATA.map(data => {
-            if (data.routeName === this.state.pathName) {
-                this.setState({ completeData: data });
-            }
-        });
+    useEffect(() => {
+        setPage(1);
+        updateResults(1);
+    }, [isLoaded, data]);
 
-        await this.updateResults();
-    }
-
-    /* 
-        If a user wants to switch between mens and womens while already on the catalogue, 
-        I need to check for path update to change data
-    */
-    componentDidUpdate() {
-        if (this.props.location.pathname === this.state.pathName) return;
-
-        this.getData(this.props.location.pathname);
-
-        this.setState({ pathName: this.props.location.pathname });
-    }
-
-    getData = async path => {
-        await SHOP_DATA.map(data => {
-            if (data.routeName === path) {
-                this.setState({ completeData: data });
-            }
-        });
-
-        await this.updateResults();
-    }
 
     // This function will either increase or decrease this.state.page depending on this.state.showMore
-    handleClick = async () => {
-        const { showMore, page } = this.state;
+    const handleClick = () => {
         const newPage = showMore ? page + 1 : page - 1;
 
-        await this.setState({ page: newPage });
-        await this.updateResults();
-    }
+        updateResults(newPage);
+    };
 
     /*
         Pagination will work as follows:
         page state will indicate how many 'pages' user is on. there are actually no pages,
         but this will act as the anchor for multiples of results shown (e.g page2 * 9 == 18 results shown)
     */
-    updateResults = () => {
-        const { completeData, page } = this.state;
-        const newData = completeData.items.slice(0, page * 9);
+    const updateResults = newPage => {
+        if (!isLoaded) return;
+
+        const newData = data[0].items.slice(0, newPage * 9);
 
         // check if user has all results and update state so they can go backwards, and vice versa
-        if (newData.length === completeData.items.length) {
-            this.setState({ showMore: false });
-        } else if (newData.length === 9 && !this.state.showMore) {
-            this.setState({ showMore: true });
+        if (newData.length === data[0].items.length) {
+            setShowMore(false);
+        } else if (newData.length === 9 && !showMore) {
+            setShowMore(true);
         }
 
-        this.setState({ data: newData, loaded: true });
-    }
+        setPage(newPage);
+        setPaginatedData(newData);
+    };
 
-    render() {
-        if (!this.state.loaded) return null;
+    if (!isLoaded || data[0].length) return null;
 
-        return (
-            <section className='catalogue'>
-                <div className='background-guides-container'>
-                    <div className='background-guides'>
-                        <div className='guide-one'></div>
-                        <div className='guide-two'></div>
-                        <div className='guide-three'></div>
-                        <div className='guide-four'></div>
-                    </div>
+    return (
+        <section className='catalogue'>
+            <div className='background-guides-container'>
+                <div className='background-guides'>
+                    <div className='guide-one'></div>
+                    <div className='guide-two'></div>
+                    <div className='guide-three'></div>
+                    <div className='guide-four'></div>
                 </div>
-                <h1 className='catalogue-title'>{this.state.completeData.title}</h1>
-                <Directory data={this.state.data} />
-                <div className='custom-button-container'>
-                    <CustomButton 
-                        handleClick={this.handleClick}
-                        style={{ backgroundColor: 'var(--dark-color)', color: 'var(--background-color)' }}
-                    >
-                        {
-                            this.state.showMore ? 'See More Results'
-                            : 'Show Less Results'
-                        }
-                    </CustomButton>
-                </div>
-            </section>
-        );
-    }
+            </div>
+            <h1 className='catalogue-title'>{data[0].title}</h1>
+            <Directory data={paginatedData} />
+            <div className='custom-button-container'>
+                <CustomButton 
+                    handleClick={handleClick}
+                    style={{ backgroundColor: 'var(--dark-color)', color: 'var(--background-color)' }}
+                >
+                    {
+                        showMore ? 'See More Results'
+                        : 'Show Less Results'
+                    }
+                </CustomButton>
+            </div>
+        </section>
+    );
 }
 
-export default withRouter(Catalogue);
+const mapStateToProps = (state, ownProps) => ({
+    isLoaded: selectIsDataLoaded(state),
+    data: selectCategory(ownProps.match.params.category)(state)
+});
+
+export default connect(mapStateToProps)(withRouter(Catalogue));

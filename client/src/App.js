@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import MediaQuery from 'react-responsive';
-import { auth, createUserProfileDocument } from './firebase/firebase.utils';
+import { auth, createUserProfileDocument, convertCollectionsSnapshotToMap, firestore } from './firebase/firebase.utils';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
@@ -22,11 +22,15 @@ import { selectBagItemsCount } from './redux/bag/bag.selectors';
 
 import './App.scss';
 
+import { fetchDataStart } from './redux/shop/shop.actions';
+
 class App extends React.Component {
   unsubscribeFromAuth = null;
 
   componentDidMount() {
-    const { setCurrentUser } = this.props;
+    const { setCurrentUser, fetchDataStart } = this.props;
+
+    fetchDataStart();
 
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
       if (userAuth) {
@@ -61,8 +65,8 @@ class App extends React.Component {
         <Switch>
           <Route exact path='/' component={HomePage} />
           <Redirect strict exact from='/(womens|mens)/' to={'/(womens|mens)'} />
-          <Route exact path='/womens' component={Catalogue} />
-          <Route exact path='/mens' component={Catalogue} />
+          {/* <Route exact path='/womens' component={Catalogue} /> */}
+          <Route exact path='/:category(womens|mens)' component={Catalogue} />
           <Route path='/:category(womens|mens)/:productID' component={ProductPage} />
           <Route exact path='/sign-in'>
             {this.props.currentUser ? <Redirect to='/' /> : <SignInPage />}
@@ -86,7 +90,8 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setCurrentUser: user => dispatch(setCurrentUser(user))
+  setCurrentUser: user => dispatch(setCurrentUser(user)),
+  fetchDataStart: () => dispatch(fetchDataStart())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

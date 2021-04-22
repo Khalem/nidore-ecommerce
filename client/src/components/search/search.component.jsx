@@ -21,7 +21,11 @@ const Search = ({ hidden, changeSearchStatus, shopItems, history, match }) => {
         the user closed search
     */
     useEffect(() => {
-        if (!hidden) {
+        const html = document.querySelector('html');
+        if (hidden) {
+            html.classList.remove('hide-scroll-bar');
+        } else {
+            html.classList.add('hide-scroll-bar');
             setResults([]);
             setValue('');
         }
@@ -50,9 +54,6 @@ const Search = ({ hidden, changeSearchStatus, shopItems, history, match }) => {
         return item.toLowerCase().includes(value.toLowerCase());
     };
 
-    const html = document.querySelector('html');
-    html.classList.add('hide-scroll-bar');
-
     // if hidden, exit
     if (hidden) {
         return null;
@@ -79,7 +80,7 @@ const Search = ({ hidden, changeSearchStatus, shopItems, history, match }) => {
 
 const mapStateToProps = createStructuredSelector({
     hidden: selectSearchStatus,
-    shopItems: selectAllItems
+    shopItems: selectAllItems,
 });
 
 const mapDispatchToProps = dispatch => ({
