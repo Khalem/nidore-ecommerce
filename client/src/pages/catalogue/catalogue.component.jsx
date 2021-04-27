@@ -8,15 +8,18 @@ import CustomButton from '../../components/custom-button/custom-button.component
 import { selectCategory, selectIsDataLoaded } from '../../redux/shop/shop.selectors';
 
 import './catalogue.styles.scss';
+import { Fragment } from 'react';
 
 const Catalogue = ({ data, isLoaded, location }) => {
     const [page, setPage] = useState(1);
     const [showMore, setShowMore] = useState(true);
     const [paginatedData, setPaginatedData] = useState([]);
+    const [loaded, setLoaded] = useState(false);
 
     useEffect(() => {
         setPage(1);
         updateResults(1);
+        setLoaded(false);
     }, [isLoaded, data]);
 
 
@@ -50,30 +53,43 @@ const Catalogue = ({ data, isLoaded, location }) => {
 
     if (!isLoaded || data[0].length) return null;
 
+    const loadingLetters = 'Loading..'.split("");
+
     return (
-        <section className='catalogue'>
-            <div className='background-guides-container'>
-                <div className='background-guides'>
-                    <div className='guide-one'></div>
-                    <div className='guide-two'></div>
-                    <div className='guide-three'></div>
-                    <div className='guide-four'></div>
+        <Fragment>
+            <div className='loading-container' style={loaded ? {display: 'none'} : null}>
+                <div className='loading'>
+                    {
+                        loadingLetters.map(letter => (
+                            <div className='loading-letter'>{letter}</div>
+                        ))
+                    }
                 </div>
             </div>
-            <h1 className='catalogue-title'>{data[0].title}</h1>
-            <Directory data={paginatedData} />
-            <div className='custom-button-container'>
-                <CustomButton 
-                    handleClick={handleClick}
-                    style={{ backgroundColor: 'var(--dark-color)', color: 'var(--background-color)' }}
-                >
-                    {
-                        showMore ? 'See More Results'
-                        : 'Show Less Results'
-                    }
-                </CustomButton>
-            </div>
-        </section>
+            <section className='catalogue' onLoad={() => setLoaded(true)} style={!loaded ? {display: 'none'} : null}>
+                <div className='background-guides-container'>
+                    <div className='background-guides'>
+                        <div className='guide-one'></div>
+                        <div className='guide-two'></div>
+                        <div className='guide-three'></div>
+                        <div className='guide-four'></div>
+                    </div>
+                </div>
+                <h1 className='catalogue-title'>{data[0].title}</h1>
+                <Directory data={paginatedData} />
+                <div className='custom-button-container'>
+                    <CustomButton 
+                        handleClick={handleClick}
+                        style={{ backgroundColor: 'var(--dark-color)', color: 'var(--background-color)' }}
+                    >
+                        {
+                            showMore ? 'See More Results'
+                            : 'Show Less Results'
+                        }
+                    </CustomButton>
+                </div>
+            </section>
+        </Fragment>
     );
 }
 
