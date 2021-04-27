@@ -1,7 +1,6 @@
-import React, { Fragment } from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import React, { Fragment, useEffect } from 'react';
+import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import MediaQuery from 'react-responsive';
-import { auth, createUserProfileDocument, convertCollectionsSnapshotToMap, firestore } from './firebase/firebase.utils';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
@@ -16,72 +15,57 @@ import BagPage from './pages/bag/bag-page.component';
 import Checkout from './pages/checkout/checkout.component';
 import Search from './components/search/search.component';
 
-import { setCurrentUser } from './redux/user/user.actions';
+import { fetchDataStart } from './redux/shop/shop.actions';
+import { checkUserSession, clearErrorMessage } from './redux/user/user.actions';
 import { selectCurrentUser } from './redux/user/user.selectors';
 import { selectBagItemsCount } from './redux/bag/bag.selectors';
 
 import './App.scss';
 
-import { fetchDataStart } from './redux/shop/shop.actions';
-
-class App extends React.Component {
-  unsubscribeFromAuth = null;
-
-  componentDidMount() {
-    const { setCurrentUser, fetchDataStart } = this.props;
-
+const App = ({ checkUserSession, fetchDataStart, currentUser, clearUserErrorMessage, history }) => {
+  // fetch data when component mounts
+  useEffect(() => {
     fetchDataStart();
+  }, []);
 
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
-      if (userAuth) {
-        const userRef = await createUserProfileDocument(userAuth);
+  // check for user
+  useEffect(() => {
+    checkUserSession();
+  }, [checkUserSession]);
 
-        userRef.onSnapshot(snapShot => {
-          setCurrentUser({
-            id: snapShot.id,
-            ...snapShot.data()
-          });
-        });
-      } else {
-        setCurrentUser(userAuth);
-      }
-    });
-  }
+  // when user changes route, change error message to avoid old errors appearing
+  useEffect(() => {
+    clearUserErrorMessage();
+  }, [history.location]);
 
-  componentWillUnmount() {
-    this.unsubscribeFromAuth();
-  }
-
-  render() {
-    return (
-      <Fragment>
-        <MediaQuery minWidth={1280}>
-          <Nav />
-        </MediaQuery>
-        <MediaQuery maxWidth={1280}>
-          <MobileNav />
-        </MediaQuery>
-        <Search />
-        <Switch>
-          <Route exact path='/' component={HomePage} />
-          <Redirect strict exact from='/(womens|mens)/' to={'/(womens|mens)'} />
-          {/* <Route exact path='/womens' component={Catalogue} /> */}
-          <Route exact path='/:category(womens|mens)' component={Catalogue} />
-          <Route path='/:category(womens|mens)/:productID' component={ProductPage} />
-          <Route exact path='/sign-in'>
-            {this.props.currentUser ? <Redirect to='/' /> : <SignInPage />}
-          </Route>
-          <Route exact path='/sign-up'>
-            {this.props.currentUser ? <Redirect to='/' /> : <SignUpPage />}
-          </Route>
-          <Route exact path='/shopping-bag' component={BagPage} />
-          <Route exact path='/checkout'>
-            {this.props.currentUser ? <Checkout /> : <Redirect to='/sign-in' />}
-          </Route>
-        </Switch>
-      </Fragment>
-    );
-  }
+  return (
+    <Fragment>
+      <MediaQuery minWidth={1280}>
+        <Nav />
+      </MediaQuery>
+      <MediaQuery maxWidth={1280}>
+        <MobileNav />
+      </MediaQuery>
+      <Search />
+      <Switch>
+        <Route exact path='/' component={HomePage} />
+        <Redirect strict exact from='/(womens|mens)/' to={'/(womens|mens)'} />
+        {/* <Route exact path='/womens' component={Catalogue} /> */}
+        <Route exact path='/:category(womens|mens)' component={Catalogue} />
+        <Route path='/:category(womens|mens)/:productID' component={ProductPage} />
+        <Route exact path='/sign-in'>
+          {currentUser ? <Redirect to='/' /> : <SignInPage />}
+        </Route>
+        <Route exact path='/sign-up'>
+          {currentUser ? <Redirect to='/' /> : <SignUpPage />}
+        </Route>
+        <Route exact path='/shopping-bag' component={BagPage} />
+        <Route exact path='/checkout'>
+          {currentUser ? <Checkout /> : <Redirect to='/sign-in' />}
+        </Route>
+      </Switch>
+    </Fragment>
+  );
 }
 
 const mapStateToProps = createStructuredSelector({
@@ -90,8 +74,9 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setCurrentUser: user => dispatch(setCurrentUser(user)),
-  fetchDataStart: () => dispatch(fetchDataStart())
+  checkUserSession: () => dispatch(checkUserSession()), 
+  fetchDataStart: () => dispatch(fetchDataStart()),
+  clearUserErrorMessage: () => dispatch(clearErrorMessage())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(App));

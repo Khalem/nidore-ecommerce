@@ -13,12 +13,13 @@ import { ReactComponent as UserIcon } from '../../assets/user.svg';
 
 import { selectCurrentUser } from '../../redux/user/user.selectors';
 import { selectBagItemsCount } from '../../redux/bag/bag.selectors';
-
 import { changeSearchStatus } from '../../redux/search/search.actions';
+import { signOutStart } from '../../redux/user/user.actions';
+
 
 import './mobile-nav.styles.scss';
 
-const MobileNav = ({ currentUser, bagItemsCount, changeSearchStatus }) => {
+const MobileNav = ({ currentUser, bagItemsCount, changeSearchStatus, signOutStart }) => {
     const { pathname } = useLocation();
     const [showCatalogue, setShowCatalogue] = useState(false);
     const [menuActive, setMenuActive] = useState(false);
@@ -119,7 +120,7 @@ const MobileNav = ({ currentUser, bagItemsCount, changeSearchStatus }) => {
                         </li>
                         {
                             currentUser ?
-                            <li className='nav-item sign-out' onClick={() => auth.signOut()}>Sign Out</li>
+                            <li className='nav-item sign-out' onClick={signOutStart}>Sign Out</li>
                             :
                             <li className='nav-item'><Link to='sign-in' style={{ textDecoration: 'none', color: 'var(--background-color)' }}><UserIcon /> Profile</Link></li>
                         }
@@ -138,7 +139,8 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = dispatch => ({
-    changeSearchStatus: () => dispatch(changeSearchStatus())
+    changeSearchStatus: () => dispatch(changeSearchStatus()),
+    signOutStart: () => dispatch(signOutStart())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MobileNav);

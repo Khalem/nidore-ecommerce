@@ -13,10 +13,11 @@ import { ReactComponent as UserIcon } from '../../assets/user.svg';
 import { selectCurrentUser } from '../../redux/user/user.selectors';
 import { selectBagItemsCount } from '../../redux/bag/bag.selectors';
 import { changeSearchStatus } from '../../redux/search/search.actions';
+import { signOutStart } from '../../redux/user/user.actions';
 
 import './nav.styles.scss';
 
-const Nav = ({ currentUser, bagItemsCount, changeSearchStatus }) => {
+const Nav = ({ currentUser, bagItemsCount, changeSearchStatus, signOutStart }) => {
     const { pathname } = useLocation();
     const [showCatalogue, setShowCatalogue] = useState(false);
     const linkStyle = {
@@ -50,7 +51,7 @@ const Nav = ({ currentUser, bagItemsCount, changeSearchStatus }) => {
                 <li className='nav-item'><Link to='/shopping-bag'><ShoppingBag /></Link>{bagItemsCount ? <span className='item-count' /> : null}</li>
                 {
                     currentUser ?
-                    <li className='nav-item' onClick={() => auth.signOut()}>Sign Out</li>
+                    <li className='nav-item' onClick={signOutStart}>Sign Out</li>
                     :
                     <li className='nav-item'><Link to='/sign-in'><UserIcon /></Link></li>
                 }
@@ -65,7 +66,8 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = dispatch => ({
-    changeSearchStatus: () => dispatch(changeSearchStatus())
+    changeSearchStatus: () => dispatch(changeSearchStatus()),
+    signOutStart: () => dispatch(signOutStart())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Nav);
