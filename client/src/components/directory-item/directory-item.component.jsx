@@ -9,7 +9,7 @@ const DirectoryItem = ({ item, index, history, match }) => (
         <div className='product-details'>
             <p className='product-name'>{item.name}</p>
             <p className='product-brand'>{item.brand}</p>
-            <p className='product-price'>€{item.prices[Object.keys(item.prices)[0]]}</p>
+            <p className='product-price'>€{item.prices[Object.keys(item.prices)[0]].toFixed(2)}</p>
         </div>
     </div>
 );

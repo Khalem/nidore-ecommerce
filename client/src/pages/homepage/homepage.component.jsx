@@ -10,7 +10,7 @@ import WomensThumbnail from '../../assets/womens-thumbnail.jpg';
 import './homepage.styles.scss';
 
 const HomePage = ({ history, match }) => (
-    <div className='homepage' style={{ backgroundImage: `url(${backgroundSvg})` }}>
+    <div className='homepage'>
         <div className='homepage-header'>
             <h1>Nidore</h1>
             <h2>The world's best selling fragrances.<br />All in one place.</h2>

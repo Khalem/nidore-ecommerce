@@ -56,6 +56,7 @@ const MobileNav = ({ currentUser, bagItemsCount, changeSearchStatus, signOutStar
     // Use function in navUtils to check pathname and change state
     useEffect(() => {
         setShowCatalogue(checkPathname(pathname));
+        setMenuActive(false);
     }, [pathname]);
 
     // Use function in navUtils to hide nav on scroll

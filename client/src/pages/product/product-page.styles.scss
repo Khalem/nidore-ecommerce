@@ -14,20 +14,24 @@
     }
 }
 
-.product-page {
-    .product-title, .brand-title {
-        font-family: var(--serif-font);
-        font-weight: 400;
-        text-align: center;
-        text-transform: uppercase;
-    }
+@mixin productTitle {
+    font-family: var(--serif-font);
+    font-weight: 400;
+    text-align: center;
+    text-transform: uppercase;
+}
 
+.product-page {
     .product-title {
+        @include productTitle();
+
         font-size: 56px;
         margin: 0 0 50px 0;
     }
 
     .brand-title {
+        @include productTitle();
+        
         margin: 0;
         padding: 100px 0 0 0;
         font-size: 32px;

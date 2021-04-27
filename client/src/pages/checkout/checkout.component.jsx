@@ -144,7 +144,6 @@ const Checkout = ({ total, currentUser, dispatch, bagItemsCount, history }) => {
 
     return (
         <section className='checkout'>
-            <h1 className='checkout-title'>Checkout</h1>
             <FormBox handleSubmit={handleFormSubmit}>
                 <h2 className='form-title'>Billing Address</h2>
                 <AddressFieldsContainer addressType='' />

@@ -47,7 +47,7 @@ const ProductBox = ({ id, imageUrl, name, prices, active, handleClick, brand, ad
                                     className={active === keyName ? 'price active' : 'price'}
                                 >
                                     <p>{keyName}ml</p>
-                                    <p>€{prices[keyName]}</p>
+                                    <p>€{prices[keyName].toFixed(2)}</p>
                                 </div>
                             ))
                         }

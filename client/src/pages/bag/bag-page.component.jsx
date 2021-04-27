@@ -44,7 +44,6 @@ const BagPage = ({ bagItems, bagItemsTotal, history }) => {
             {
                 bagItems.length ?
                 <Fragment>
-                    <h1 className='bag-page-title'>Your shopping bag</h1>
                     {
                         bagItems.map((item, index) => 
                             <BagItem item={item} key={index} />
@@ -58,7 +57,7 @@ const BagPage = ({ bagItems, bagItemsTotal, history }) => {
                 :
                 <Fragment>
                     <h1 className='bag-page-title'>Nothing here yet,</h1>
-                    <h2 className='bag-page-secondary-title'>Let's change that</h2>
+                    <h2 className='bag-page-secondary-title'>let's change that</h2>
                     <Pointer className='pointer' />
                     <div className='redirect-container'>
                         <h3 className='redirect-title' 
