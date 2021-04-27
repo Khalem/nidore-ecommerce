@@ -50,7 +50,6 @@ const App = ({ checkUserSession, fetchDataStart, currentUser, clearUserErrorMess
       <Switch>
         <Route exact path='/' component={HomePage} />
         <Redirect strict exact from='/(womens|mens)/' to={'/(womens|mens)'} />
-        {/* <Route exact path='/womens' component={Catalogue} /> */}
         <Route exact path='/:category(womens|mens)' component={Catalogue} />
         <Route path='/:category(womens|mens)/:productID' component={ProductPage} />
         <Route exact path='/sign-in'>

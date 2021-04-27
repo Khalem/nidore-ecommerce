@@ -10,7 +10,6 @@ const CustomInput = ({ handleChange, label, name, value, ...otherProps  }) => {
         if (!value) {
             inputLabel.classList.add('input-label');
             inputLabel.classList.remove('active-label');
-
         } else {
             inputLabel.classList.add('active-label');
             inputLabel.classList.remove('input-label');

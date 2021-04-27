@@ -5,7 +5,7 @@ import './directory-item.styles.scss';
 
 const DirectoryItem = ({ item, index, history, match }) => (
     <div className='product-item' key={index} onClick={() => history.push(`${match.url}/${item.id}`)}>
-        <img src={item.imageUrl} alt={`${item.name} image`} className='product-image' />
+        <img src={item.imageUrl} alt={`${item.name}`} className='product-image' />
         <div className='product-details'>
             <p className='product-name'>{item.name}</p>
             <p className='product-brand'>{item.brand}</p>

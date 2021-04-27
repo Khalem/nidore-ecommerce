@@ -60,8 +60,8 @@ const Catalogue = ({ data, isLoaded, location }) => {
             <div className='loading-container' style={loaded ? {display: 'none'} : null}>
                 <div className='loading'>
                     {
-                        loadingLetters.map(letter => (
-                            <div className='loading-letter'>{letter}</div>
+                        loadingLetters.map((letter, index) => (
+                            <div className='loading-letter' key={`${letter}-${index}`}>{letter}</div>
                         ))
                     }
                 </div>
