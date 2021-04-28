@@ -1,0 +1,37 @@
+.loading-container {
+    height: 75vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .loading {
+        display: flex;
+    }
+
+    .loading-letter {
+        font-family: var(--serif-font);
+        font-size: 28px;
+        font-weighT: 800;
+        animation-name: letterBounce;
+        animation-duration: 1.5s;
+        animation-iteration-count: infinite;
+
+        @for $i from 1 through 9 {
+            &:nth-child(#{$i}) {
+                animation-delay: $i * 0.1s;
+            }
+        }
+    }
+
+    @keyframes letterBounce {
+        0% {
+            transform: translateY(0);
+        }
+        40% {
+            transform: translateY(-20px);
+        }
+        100% {
+            transform: translateY(0);
+        }
+    }
+}

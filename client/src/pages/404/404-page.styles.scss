@@ -1,0 +1,28 @@
+.page-not-found-container {
+    padding: 100px 0 0 0;
+    text-align: center;
+
+    .page-not-found-title {
+        font-family: var(--sans-font);
+        font-size: 120px;
+        margin-bottom: 25px;
+    }
+
+    .page-not-found-secondary-title {
+        font-family: var(--serif-font);
+        font-size: 24px;
+    }
+
+    .go-back {
+        font-family: var(--sans-font);
+        font-size: 16px;
+        font-weight: 500;
+        margin: 30px 0;
+        padding: 15px 30px;
+        background-color: #ff2b4f;
+        color: white;
+        border: none;
+        outline: none;
+        cursor: pointer;
+    }
+}

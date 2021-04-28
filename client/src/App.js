@@ -14,6 +14,7 @@ import SignUpPage from './pages/sign-up/sign-up-page.component';
 import BagPage from './pages/bag/bag-page.component';
 import Checkout from './pages/checkout/checkout.component';
 import Search from './components/search/search.component';
+import PageNotFound from './pages/404/404-page.component';
 
 import { fetchDataStart } from './redux/shop/shop.actions';
 import { checkUserSession, clearErrorMessage } from './redux/user/user.actions';
@@ -62,6 +63,7 @@ const App = ({ checkUserSession, fetchDataStart, currentUser, clearUserErrorMess
         <Route exact path='/checkout'>
           {currentUser ? <Checkout /> : <Redirect to='/sign-in' />}
         </Route>
+        <Route path='*' component={PageNotFound} />
       </Switch>
     </Fragment>
   );

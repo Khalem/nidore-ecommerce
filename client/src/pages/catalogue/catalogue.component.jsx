@@ -4,13 +4,14 @@ import { connect } from 'react-redux';
 
 import Directory from '../../components/directory/directory.component';
 import CustomButton from '../../components/custom-button/custom-button.component';
+import Loading from '../../components/loading/loading.component';
 
 import { selectCategory, selectIsDataLoaded } from '../../redux/shop/shop.selectors';
 
 import './catalogue.styles.scss';
 import { Fragment } from 'react';
 
-const Catalogue = ({ data, isLoaded, location }) => {
+const Catalogue = ({ data, isLoaded }) => {
     const [page, setPage] = useState(1);
     const [showMore, setShowMore] = useState(true);
     const [paginatedData, setPaginatedData] = useState([]);
@@ -51,21 +52,11 @@ const Catalogue = ({ data, isLoaded, location }) => {
         setPaginatedData(newData);
     };
 
-    if (!isLoaded || data[0].length) return null;
-
-    const loadingLetters = 'Loading..'.split("");
+    if (!isLoaded || data[0].length) return <Loading loaded={loaded} />;
 
     return (
         <Fragment>
-            <div className='loading-container' style={loaded ? {display: 'none'} : null}>
-                <div className='loading'>
-                    {
-                        loadingLetters.map((letter, index) => (
-                            <div className='loading-letter' key={`${letter}-${index}`}>{letter}</div>
-                        ))
-                    }
-                </div>
-            </div>
+            <Loading loaded={loaded} />
             <section className='catalogue' onLoad={() => setLoaded(true)} style={!loaded ? {display: 'none'} : null}>
                 <div className='background-guides-container'>
                     <div className='background-guides'>
